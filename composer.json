@@ -1,0 +1,15 @@
+{
+    "name": "ri356/gallery-phpapi",
+    "authors": [
+        {
+            "name": "wuminghsueh",
+            "email": "ri3567@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "GalleryAPI\\" : "src/"
+        }
+    }
+}
