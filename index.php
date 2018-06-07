@@ -12,5 +12,8 @@ if (empty($pathInfoData)) {
 $method = $_SERVER['REQUEST_METHOD'];
 $request = json_decode(file_get_contents("php://input"), true);
 
-$router = new Routes($method, $pathInfoData);
+$headers = apache_request_headers();
+
+
+$router = new Routes($method, $pathInfoData, $headers);
 $router->response($request);

@@ -29,12 +29,14 @@ class Routes implements IRouteResponse
      */
     private $method;
     private $pathInfoData;
+    private $headers;
     private $control;
     
-    public function __construct($method, $pathInfoData)
+    public function __construct($method, $pathInfoData, $headers)
     {
         $this->method = $method;
         $this->pathInfoData = $pathInfoData;
+        $this->headers = $headers;
         $this->control = new Control($method, $pathInfoData);
     }
 

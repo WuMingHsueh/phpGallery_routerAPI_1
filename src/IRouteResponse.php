@@ -3,5 +3,5 @@ namespace GalleryAPI;
 
 interface IRouteResponse
 {
-    public function response();
+    public function response($request);
 }
