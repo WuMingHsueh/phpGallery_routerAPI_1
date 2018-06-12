@@ -6,7 +6,9 @@
             "email": "ri3567@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "spatie/array-to-xml": "^2.7"
+    },
     "autoload": {
         "psr-4": {
             "GalleryAPI\\" : "src/"

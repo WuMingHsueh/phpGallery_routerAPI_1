@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit6f603431da194c087e36e30ea08a1831
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Spatie\\ArrayToXml\\' => 18,
+        ),
         'G' => 
         array (
             'GalleryAPI\\' => 11,
@@ -14,6 +18,10 @@ class ComposerStaticInit6f603431da194c087e36e30ea08a1831
     );
 
     public static $prefixDirsPsr4 = array (
+        'Spatie\\ArrayToXml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/array-to-xml/src',
+        ),
         'GalleryAPI\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

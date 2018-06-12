@@ -1,10 +1,12 @@
 <?php
 namespace GalleryAPI\api_page ;
 
-use GalleryAPI\IRouteResponse;
+use GalleryAPI\page_data\AccountData;
 
 class Account
 {
+    public function __construct() {}
+
     public function userInfo($id)
     {
         return "GET /account/{id} -> " . $id;
