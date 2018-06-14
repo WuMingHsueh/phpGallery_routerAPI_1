@@ -28,9 +28,9 @@ class Account
         // 確認申請帳號是否存在
         $accountExistFlag = $this->data->selectAccountExist($request['account']);
         if ($accountExistFlag) {  // 不存在則寫入db
-            $accountToken = $this->auth->generateToken($request['account']); // 產生account Token
-            $this->data->insertAccount($request['account'], $request['bio'], $accountToken);  // 寫入db
-            return $this->xmlTool->xmlEncodeOneLevelWithContent(["type" => "string" ,"status" => "200", "success" => 1], $accountToken); // xmlEncodeOneLevelWithContent 為一層的xml 含有標籤內文
+            $accountId = $this->generateAccountId(); // 產生account Id
+            $this->data->insertAccount($request['account'], $request['bio'], $accountId);  // 寫入db
+            return $this->xmlTool->xmlEncodeOneLevelWithContent(["type" => "string" ,"status" => "200", "success" => 1], $accountId); // xmlEncodeOneLevelWithContent 為一層的xml 含有標籤內文
             /* Xml output Example:
                 <?xml version="1.0" encoding="UTF-8"?>
                 <data type="string" success="1" status="200">CNo0hw5</data>
@@ -43,5 +43,10 @@ class Account
                 <data type="string" success="0" status="400">此帳號已經被註冊</data>
             */
         }
+    }
+
+    private function generateAccountId()
+    {
+        return substr(bin2hex(openssl_random_pseudo_bytes(4)), 1);
     }
 }
