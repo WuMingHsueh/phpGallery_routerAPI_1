@@ -3,31 +3,22 @@ namespace GalleryAPI\controllers;
 
 use GalleryAPI\api_page\Album;
 use GalleryAPI\api_page\Image;
+use GalleryAPI\service\AuthService;
 
 class AlbumController
 {
+    private $auth;
 
     public function __construct($pathInfo, $method, $headers)
     {
-        switch ($headers['Content-Type']) {
-            case 'application/xml':
-                $request = json_decode(
-                    json_encode(
-                        file_get_contents("php://input")),
-                        true
-                    );
-                break;
-
-            case 'multipart/form-data':
-                $request = $_FILES;
-                break;   
-
-            default:
-                exit;
-                break;
-        }
-        if ($method == 'POST' and count($pathInfo) == 1) {
+        $this->auth = new AuthService();
+        
+        if ($method == 'POST' and count($pathInfo) == 1 and
+            $headers['Content-Type'] == 'application/xml' and
+            $this->auth->tokenAuth($headers['Authorization'])
+        ) {
             $provider = new Album();
+            $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
         }
         if (count($pathInfo) == 2 ) {

@@ -16,7 +16,7 @@ class XmlService
                 '_value' => $content
             ]
         ];
-        return $this->removeRootTag(ArrayToXml::convert($array));
+        return $this->removeRootTag(ArrayToXml::convert($array, '', true, 'UTF-8'));
     }
 
     private function removeRootTag($xmlString)
