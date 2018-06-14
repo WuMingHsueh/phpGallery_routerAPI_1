@@ -15,7 +15,7 @@ class AccountController
             echo $provider->userInfo($pathInfo[1]);
         }
         if ($method == 'POST' and count($pathInfo) == 1) {
-            $request = json_decode(json_encode(file_get_contents("php://input")),true);
+            $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
         }
     }
