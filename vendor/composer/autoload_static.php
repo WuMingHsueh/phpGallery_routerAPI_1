@@ -6,13 +6,26 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit6f603431da194c087e36e30ea08a1831
 {
+    public static $files = array (
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
             'Spatie\\ArrayToXml\\' => 18,
         ),
+        'P' => 
+        array (
+            'Psr\\Http\\Message\\' => 17,
+        ),
+        'I' => 
+        array (
+            'Intervention\\Image\\' => 19,
+        ),
         'G' => 
         array (
+            'GuzzleHttp\\Psr7\\' => 16,
             'GalleryAPI\\' => 11,
         ),
     );
@@ -22,9 +35,31 @@ class ComposerStaticInit6f603431da194c087e36e30ea08a1831
         array (
             0 => __DIR__ . '/..' . '/spatie/array-to-xml/src',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Intervention\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
         'GalleryAPI\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'U' => 
+        array (
+            'Upload' => 
+            array (
+                0 => __DIR__ . '/..' . '/codeguy/upload/src',
+            ),
         ),
     );
 
@@ -33,6 +68,7 @@ class ComposerStaticInit6f603431da194c087e36e30ea08a1831
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit6f603431da194c087e36e30ea08a1831::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit6f603431da194c087e36e30ea08a1831::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6f603431da194c087e36e30ea08a1831::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

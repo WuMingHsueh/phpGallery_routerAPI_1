@@ -5,7 +5,7 @@ use GalleryAPI\api_page\Image;
 
 class IController
 {
-    public function __construct($pathInfo, $method, $headers)
+    public function __construct($pathInfo, $method)
     {
         if (count($pathInfo) == 2 and $method == 'GET') {
             $provider = new Image();

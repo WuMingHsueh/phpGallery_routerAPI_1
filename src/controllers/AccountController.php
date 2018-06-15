@@ -6,16 +6,16 @@ use GalleryAPI\service\AuthService;
 
 class AccountController
 {
-    private $auth ;
+    private $auth;
 
-    public function __construct($pathInfo, $method, $headers)
+    public function __construct($pathInfo, $method)
     {
         $this->auth = new AuthService();
         $provider = new Account();
-        if (isset($pathInfo[1]) and $method == 'GET' and $this->auth->tokenAuth($headers['Authorization'])) {
+        if (isset($pathInfo[1]) and $method == 'GET' and $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])) {
             echo $provider->userInfo($pathInfo[1]);
         }
-        if ($method == 'POST' and count($pathInfo) == 1 and $headers['Content-Type'] == "application/xml") {
+        if ($method == 'POST' and count($pathInfo) == 1 and $_SERVER['HTTP_CONTENT_TYPE'] == "application/xml") {
             $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
         }

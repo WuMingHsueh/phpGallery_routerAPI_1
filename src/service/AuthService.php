@@ -11,7 +11,7 @@ class AuthService
     public function tokenAuth($authorizationString)
     {
         $element = explode(' ', $authorizationString);
-        return ($element[0] == 'token' and $element[1] == 'WxhZGRp');
+        return ($element[0] == 'Token' and $element[1] == 'WxhZGRp');
         // return ($element[0] == 'token' and $element[1] == $_SESSION['token']);
     }
 

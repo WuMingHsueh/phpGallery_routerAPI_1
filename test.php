@@ -1,4 +1,8 @@
 <?php
 include __DIR__ . "/vendor/autoload.php";
 
-echo substr(hash('md5',uniqid()), 0, rand(5, 11));
+$sentence = '';
+foreach ($_SERVER as $index => $data) {
+    $sentence .= "$index --> $data" . PHP_EOL;
+}
+echo nl2br($sentence);

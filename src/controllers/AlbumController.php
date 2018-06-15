@@ -9,30 +9,30 @@ class AlbumController
 {
     private $auth;
 
-    public function __construct($pathInfo, $method, $headers)
+    public function __construct($pathInfo, $method)
     {
         $this->auth = new AuthService();
-        
+
         if ($method == 'POST' and count($pathInfo) == 1 and
-            $headers['Content-Type'] == 'application/xml' and
-            $this->auth->tokenAuth($headers['Authorization'])
+            $_SERVER['HTTP_CONTENT_TYPE'] == 'application/xml' and
+            $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])
         ) {
             $provider = new Album();
             $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
         }
-        if (count($pathInfo) == 2 ) {
+        if (count($pathInfo) == 2) {
             $provider = new Album();
             switch ($method) {
                 case 'PATCH':
                     echo $provider->update($request, $pathInfo[1]);
-                break;
+                    break;
                 case 'DELETE':
                     echo $provider->delete($pathInfo[1]);
-                break;
+                    break;
                 case 'GET':
                     echo $provider->queryAlbumInfo($pathInfo[1]);
-                break;
+                    break;
             }
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'latest' and $method == 'GET') {
@@ -43,7 +43,11 @@ class AlbumController
             $provider = new Album();
             echo $provider->queryHot($pathInfo[1]);
         }
-        if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST') {
+        if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST' and
+            $_SERVER['HTTP_CONTENT_TYPE'] == 'multipart/form-data' and
+            $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])
+        ) {
+            print_r(file_get_contents('php://input'));
             $provider = new Image();
             echo $provider->uploadImage($request, $pathInfo[1]);
         }
@@ -52,18 +56,18 @@ class AlbumController
             switch ($method) {
                 case 'PATCH':
                     echo $provider->update($request, $pathInfo[1], $pathInfo[3]);
-                break;
+                    break;
                 case 'DELETE':
                     echo $provider->delete($pathInfo[1], $pathInfo[3]);
-                break;
+                    break;
                 case 'GET':
                     echo $provider->queryImage($pathInfo[1], $pathInfo[3]);
-                break;
+                    break;
             }
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'cover.jpg') {
             $provider = new Album();
             echo $provider->queryCover($pathInfo[1]);
-        }   
+        }
     }
 }

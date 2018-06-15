@@ -10,9 +10,8 @@ $pathInfoData = explode('/', $pathInfo);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-$headers = apache_request_headers();
-
-if (file_exists('./src/controllers/'.$pathInfoData[0].'Controller.php')) {
-    $class = 'GalleryAPI\\controllers\\'.$pathInfoData[0].'Controller';
-    $provider = new $class($pathInfoData, $method, $headers);
+$className  = strtoupper(substr($pathInfoData[0], 0, 1)) . substr($pathInfoData[0], 1) . 'Controller';
+if (file_exists('./src/controllers/' . $className . '.php')) {
+    $class = 'GalleryAPI\\controllers\\' . $className ;
+    $provider = new $class($pathInfoData, $method);
 }
