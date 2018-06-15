@@ -47,9 +47,8 @@ class AlbumController
             $contentType == 'multipart/form-data' and
             $this->auth->tokenAuth($authorization)
         ) {
-            print_r(file_get_contents('php://input'));
             $provider = new Image();
-            echo $provider->uploadImage($request, $pathInfo[1]);
+            echo $provider->uploadImage($_REQUEST, $_FILES, $pathInfo[1]);
         }
         if (count($pathInfo) == 4 and $pathInfo[2] == 'images') {
             $provider = new Image();
