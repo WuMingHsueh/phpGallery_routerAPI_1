@@ -8,14 +8,14 @@ class AccountController
 {
     private $auth;
 
-    public function __construct($pathInfo, $method)
+    public function __construct($pathInfo, $method, $contentType, $authorization)
     {
         $this->auth = new AuthService();
         $provider = new Account();
-        if (isset($pathInfo[1]) and $method == 'GET' and $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])) {
+        if (isset($pathInfo[1]) and $method == 'GET' and $this->auth->tokenAuth($authorization)) {
             echo $provider->userInfo($pathInfo[1]);
         }
-        if ($method == 'POST' and count($pathInfo) == 1 and $_SERVER['HTTP_CONTENT_TYPE'] == "application/xml") {
+        if ($method == 'POST' and count($pathInfo) == 1 and $contentType == "application/xml") {
             $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
         }

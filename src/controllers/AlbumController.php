@@ -9,13 +9,13 @@ class AlbumController
 {
     private $auth;
 
-    public function __construct($pathInfo, $method)
+    public function __construct($pathInfo, $method, $contentType, $authorization)
     {
         $this->auth = new AuthService();
 
         if ($method == 'POST' and count($pathInfo) == 1 and
-            $_SERVER['HTTP_CONTENT_TYPE'] == 'application/xml' and
-            $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])
+            $contentType == 'application/xml' and
+            $this->auth->tokenAuth($authorization)
         ) {
             $provider = new Album();
             $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
@@ -44,8 +44,8 @@ class AlbumController
             echo $provider->queryHot($pathInfo[1]);
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST' and
-            $_SERVER['HTTP_CONTENT_TYPE'] == 'multipart/form-data' and
-            $this->auth->tokenAuth($_SERVER['HTTP_AUTHORIZATION'])
+            $contentType == 'multipart/form-data' and
+            $this->auth->tokenAuth($authorization)
         ) {
             print_r(file_get_contents('php://input'));
             $provider = new Image();

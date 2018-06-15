@@ -5,9 +5,9 @@ use GalleryAPI\api_page\Internal;
 
 class InternalController
 {
-    public function __construct($pathInfo, $method)
+    public function __construct($pathInfo, $method, $contentType, $authorization)
     {
-        if ($_SERVER['HTTP_CONTENT_TYPE'] != "application/xml") {
+        if ($contentType != "application/xml") {
             exit;
         }
         $provider = new Internal();
