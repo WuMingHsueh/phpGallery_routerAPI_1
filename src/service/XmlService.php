@@ -8,7 +8,16 @@ class XmlService
     // https://packagist.org/packages/spatie/array-to-xml
     // https://github.com/spatie/array-to-xml
 
-    public function xmlEncodeOneLevelWithContent(Array $attr, $content)
+    public function xmlEncodeDataArray(array $data, array $attr)
+    {
+
+        return ArrayToXml::convert($data, [
+            'rootElementName' => 'data',
+            '_attributes' => $attr,
+        ], true, 'UTF-8');
+    }
+
+    public function xmlEncodeOneLevelWithContent(array $attr, $content)
     {
         $array = [
             "data" => [

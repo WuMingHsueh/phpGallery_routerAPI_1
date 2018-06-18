@@ -15,8 +15,7 @@ class AlbumController
 
         if ($method == 'POST' and count($pathInfo) == 1 and
             $contentType == 'application/xml' and
-            $this->auth->tokenAuth($authorization)
-        ) {
+            $this->auth->tokenAuth($authorization)) {
             $provider = new Album();
             $request = json_decode(json_encode(simplexml_load_string(file_get_contents("php://input"))), true);
             echo $provider->create($request);
@@ -45,10 +44,9 @@ class AlbumController
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST' and
             $contentType == 'multipart/form-data' and
-            $this->auth->tokenAuth($authorization)
-        ) {
+            $this->auth->tokenAuth($authorization)) {
             $provider = new Image();
-            echo $provider->uploadImage($_REQUEST, $_FILES, $pathInfo[1]);
+            echo $provider->uploadImage($_REQUEST, 'image', $pathInfo[1]);
         }
         if (count($pathInfo) == 4 and $pathInfo[2] == 'images') {
             $provider = new Image();

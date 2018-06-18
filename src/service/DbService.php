@@ -16,27 +16,27 @@ class DbService
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
-    public function connection(): \PDO
+    public function connection() : \PDO
     {
         return $this->pdo;
     }
 
-    public function pdoState(string $sql) 
+    public function pdoState(string $sql)
     {
         $this->pdoState = $this->pdo->prepare($sql);
         return $this->pdoState;
     }
 
-    public function queryResult(string $sql, array $params = null): Array
+    public function queryResult(string $sql, array $params = null) : array
     {
         $this->pdoState = $this->pdo->prepare($sql);
-        (is_null($params))? $this->pdoState->execute() : $this->pdoState->execute($params);
+        (is_null($params)) ? $this->pdoState->execute() : $this->pdoState->execute($params);
         return $this->pdoState->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function transcationSQLExecute(string $sql, array $params = null)
     {
         $this->pdoState = $this->pdo->prepare($sql);
-        return (is_null($params))? $this->pdoState->execute() : $this->pdoState->execute($params);
+        return (is_null($params)) ? $this->pdoState->execute() : $this->pdoState->execute($params);
     }
 }
