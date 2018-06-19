@@ -2,10 +2,7 @@
 namespace GalleryAPI\service;
 
 use GalleryAPI\Environment;
-use Imagine\Imagick\Imagine;
-use Imagine\Image\Box;
-use Imagine\Image\ImageInterface;
-use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageService
 {
@@ -13,7 +10,7 @@ class ImageService
     private $imageSouceFolder;
     private $imageFolder;
     private $fixComporessSchema = ['height' => 50, 'width' => 50];
-    private $imageComporessSchema = ['i' => 960, 'm' => 320, 's' => 90];
+    private $imageComporessSchema = ['l' => 960, 'm' => 320, 's' => 90];
     private $imageName;
     private $imageExtensionFix = 'jpg';
 
@@ -31,25 +28,27 @@ class ImageService
         $this->initalCompressImage($fileName);
         $this->image->save("{$this->imageFolder}{$this->imageName}.{$this->imageExtensionFix}");
 
-        $this->image->thumbnail(
-            new Box($this->fixComporessSchema['height'], $this->fixComporessSchema['width']),
-            ImageInterface::THUMBNAIL_OUTBOUND
-        )->save("{$this->imageFolder}{$this->imageName}t.{$this->imageExtensionFix}");
+        $this->image->resize(
+            $this->fixComporessSchema['width'],
+            $this->fixComporessSchema['height']
+        )->save(
+            "{$this->imageFolder}{$this->imageName}t.{$this->imageExtensionFix}"
+        );
 
         foreach ($this->imageComporessSchema as $index => $size) {
             if ($this->height >= $size or $this->width >= $size) {
                 $resizeBound = $this->resizeImageRateByBound($this->height, $this->width, $size);
-                $this->image->resize(new Box($resizeBound['width'], $resizeBound['height']))
-                            ->save("{$this->imageFolder}{$this->imageName}$index.{$this->imageExtensionFix}");
+                $this->image->resize($resizeBound['width'], $resizeBound['height'])
+                            ->save("{$this->imageFolder}{$this->imageName}$index.{$this->imageExtensionFix}", 100);
             }
         }
     }
 
     private function initalCompressImage($fileName)
     {
-        $this->image = (new Imagine)->open($this->imageSouceFolder . $fileName);
-        $this->height = $this->image->getSize()->getHeight();
-        $this->width = $this->image->getSize()->getWidth();
+        $this->image = Image::make($this->imageSouceFolder . $fileName);
+        $this->height = $this->image->height();
+        $this->width = $this->image->width();
         $this->imageName = explode('.', $fileName)[0];
     }
 
