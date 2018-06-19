@@ -1,10 +1,10 @@
 <?php
 namespace GalleryAPI\api_page;
 
+use GalleryAPI\service\AuthService;
 use GalleryAPI\service\ImageService;
 use GalleryAPI\service\UploadService;
 use GalleryAPI\service\XmlService;
-use GalleryAPI\service\AuthService;
 
 class Image
 {
@@ -16,8 +16,8 @@ class Image
 
     public function __construct()
     {
-        $this->imageTool = new ImageService();
         $this->uploadTool = new UploadService();
+        $this->imageTool = new ImageService();
         $this->xmlTool = new XmlService();
         $this->authTool = new AuthService();
     }
@@ -36,7 +36,7 @@ class Image
     {
         $imageId = $this->generateImageId();
         $uploadData = $this->uploadTool->uploadFile($imageId, $postFileName);
-        //$this->imageTool->compressImage($uploadData['name']);
+        $this->imageTool->compressImage($uploadData['name']);
         // $this->insertImage($imageId, $request, $albumId);
         // $uploadData = $this->selectUploadImage($imageId);
         return $this->xmlTool->xmlEncodeDataArray($uploadData, ['success' => "1", 'status' => "200"]);

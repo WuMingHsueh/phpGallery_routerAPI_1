@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Upload' => array($vendorDir . '/codeguy/upload/src'),
+    'Imagine' => array($vendorDir . '/imagine/imagine/lib'),
 );

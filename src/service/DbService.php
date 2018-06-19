@@ -1,15 +1,17 @@
 <?php
 namespace GalleryAPI\service;
 
+use GalleryAPI\Environment;
+
 class DbService
 {
     public $pdo;
     public $pdoState;
-    private $projectName = 'galleryPHPAPI';
+    // private $projectName = 'galleryPHPAPI';
 
     public function __construct()
     {
-        $configPath = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/{$this->projectName}/config/database.ini";
+        $configPath = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/". Environment::PROJECT_NAME ."/config/database.ini";
         $params = parse_ini_file($configPath);
         $dns = \sprintf("pgsql:host=%s;port=%d;dbname=%s", $params['host'], $params['port'], $params['database']);
         $this->pdo = new \PDO($dns, $params['user'], $params['password']);

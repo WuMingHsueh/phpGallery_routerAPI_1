@@ -3,16 +3,16 @@ namespace GalleryAPI\service;
 
 use Upload\File;
 use Upload\Storage\FileSystem;
+use GalleryAPI\Environment;
 
 class UploadService
 {
     private $folderPath;
-    private $projectName = 'galleryPHPAPI';
     private $fileHandle;
 
     public function __construct()
     {
-        $this->folderPath = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/{$this->projectName}/upload";
+        $this->folderPath = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/". Environment::PROJECT_NAME. "/upload/";
     }
 
     public function uploadFile($fileId, $postFileName)
