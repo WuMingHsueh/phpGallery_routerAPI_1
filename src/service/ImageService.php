@@ -44,6 +44,10 @@ class ImageService
         }
     }
 
+    public function getImageSize(): array {
+        return ['width' => $this->width, 'height' => $this->height];
+    }
+
     private function initalCompressImage($fileName)
     {
         $this->image = Image::make($this->imageSouceFolder . $fileName);
