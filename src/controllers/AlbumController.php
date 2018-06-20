@@ -43,8 +43,8 @@ class AlbumController
             echo $provider->queryHot($pathInfo[1]);
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST' and
-            $contentType == 'multipart/form-data' and
-            $this->auth->tokenAuth($authorization)) {
+        $contentType == 'multipart/form-data' and
+        $this->auth->tokenAuth($authorization)) {
             $provider = new Image();
             echo $provider->uploadImage($_REQUEST, 'image', $pathInfo[1]);
         }

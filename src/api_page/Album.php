@@ -20,7 +20,7 @@ class Album
 
     public function create($request)
     {
-        $loginUser = 'joshTest';  // $loginUser = $this->authTool->getLoginUser();
+        $loginUser = '恩追';  // $loginUser = $this->authTool->getLoginUser();
         $albumId = $this->generateAlbumId();
         $this->dataTool->insertAlbum($albumId, $request['title'], $request['description'], $loginUser);
         return $this->xmlTool->xmlEncodeOneLevelWithContent(["type" => "string" ,"status" => "200", "success" => 1], $albumId); // xmlEncodeOneLevelWithContent 為一層的xml 含有標籤內文

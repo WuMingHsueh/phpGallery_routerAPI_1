@@ -20,7 +20,10 @@ class Account
 
     public function userInfo($id)
     {
-        return "GET /account/{id} -> " . $id;
+        $accountInfo = $this->data->selectAccountInfo($id);
+        $accountAlbumInfo = $this->data->selectAccountAlbumInfo($id);
+        $data = \array_merge($accountInfo[0], $this->reConstructureFromAlbumsArray($accountAlbumInfo));
+        return $this->xmlTool->xmlEncodeDataArrayWithCData($data, ["success" => 1, "status" => "200"]);
     }
 
     public function create($request)
@@ -48,5 +51,14 @@ class Account
     private function generateAccountId()
     {
         return substr(bin2hex(openssl_random_pseudo_bytes(4)), 1);
+    }
+
+    private function reConstructureFromAlbumsArray($albums) {
+        $xmlString = "";
+        foreach ($albums as $attr) {
+            $xmlString .= $this->xmlTool->xmlEncodeOneLevel('album', $attr);
+        }
+        $data['albums'] = [ "_cdata" => $xmlString];
+        return $data;
     }
 }
