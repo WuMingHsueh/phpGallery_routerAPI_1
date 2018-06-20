@@ -22,8 +22,13 @@ class Account
     {
         $accountInfo = $this->data->selectAccountInfo($id);
         $accountAlbumInfo = $this->data->selectAccountAlbumInfo($id);
-        $data = \array_merge($accountInfo[0], $this->reConstructureFromAlbumsArray($accountAlbumInfo));
-        return $this->xmlTool->xmlEncodeDataArrayWithCData($data, ["success" => 1, "status" => "200"]);
+        if (count($accountInfo) != 0) {
+            $data = \array_merge($accountInfo[0], $this->reConstructureFromAlbumsArray($accountAlbumInfo));
+            return $this->xmlTool->xmlEncodeDataArrayWithCData($data, ["success" => 1, "status" => "200"]);
+        } else {
+            header("HTTP/1.1 404 找不到帳號");
+            return $this->xmlTool->xmlEncodeOneLevel("data", ["success" => 0, "status" => "404"]);
+        }
     }
 
     public function create($request)
