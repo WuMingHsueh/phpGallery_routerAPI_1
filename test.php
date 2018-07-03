@@ -1,21 +1,8 @@
 <?php
 include __DIR__ . "/vendor/autoload.php";
 
-use GalleryAPI\service\XmlService;
+$length = 10;
 
-$helper = new XmlService;
-
-$data = [
-    ['id' => 'b186b7042', 'count' => '2'],
-    ['id' => '77654bb', 'count' => '8']
-];
-$xmlString = "";
-foreach ($data as $attr) {
-    $xmlString .= $helper->xmlEncodeOneLevel('album', $attr);
-}
-
-
-$temp['albums'] = [
-    "_cdata" => $xmlString
-];
-echo $helper->xmlEncodeDataArrayWithCData($temp, ["sucess" => "1", "status" => "200"]);
+$array = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+shuffle($array);
+echo implode('', array_slice($array, 0, $length));

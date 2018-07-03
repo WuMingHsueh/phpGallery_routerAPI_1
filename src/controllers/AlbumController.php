@@ -2,6 +2,7 @@
 namespace GalleryAPI\controllers;
 
 use GalleryAPI\api_page\Album;
+use GalleryAPI\api_page\Cover;
 use GalleryAPI\api_page\Image;
 use GalleryAPI\service\AuthService;
 
@@ -43,10 +44,16 @@ class AlbumController
             echo $provider->queryHot($pathInfo[1]);
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'image' and $method == 'POST' and
-        $contentType == 'multipart/form-data' and
-        $this->auth->tokenAuth($authorization)) {
+            $contentType == 'multipart/form-data' and
+            $this->auth->tokenAuth($authorization)) {
             $provider = new Image();
             echo $provider->uploadImage($_REQUEST, 'image', $pathInfo[1]);
+        }
+        if (count($pathInfo) == 3 and $pathInfo[2] == 'cover' and $method == 'POST' and
+            $contentType == 'multipart/form-data' and
+            $this->auth->tokenAuth($authorization)) {
+            $provider = new Cover($pathInfo[1]);
+            echo $provider->uploadCover('cover');
         }
         if (count($pathInfo) == 4 and $pathInfo[2] == 'images') {
             $provider = new Image();

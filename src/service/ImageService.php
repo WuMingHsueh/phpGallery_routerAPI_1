@@ -19,8 +19,8 @@ class ImageService
 
     public function __construct()
     {
-        $this->imageSouceFolder = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/". Environment::PROJECT_NAME . "/upload/";
-        $this->imageFolder = $_SERVER['DOCUMENT_ROOT'] . "/". Environment::PROJECT_NAME . "/image/";
+        $this->imageSouceFolder = dirname($_SERVER['DOCUMENT_ROOT']) . "/phpWarehouse/" . Environment::PROJECT_NAME . "/upload/";
+        $this->imageFolder = $_SERVER['DOCUMENT_ROOT'] . "/" . Environment::PROJECT_NAME . "/image/";
     }
 
     public function compressImage($fileName)
@@ -39,12 +39,13 @@ class ImageService
             if ($this->height >= $size or $this->width >= $size) {
                 $resizeBound = $this->resizeImageRateByBound($this->height, $this->width, $size);
                 $this->image->resize($resizeBound['width'], $resizeBound['height'])
-                            ->save("{$this->imageFolder}{$this->imageName}$index.{$this->imageExtensionFix}", 100);
+                    ->save("{$this->imageFolder}{$this->imageName}$index.{$this->imageExtensionFix}", 100);
             }
         }
     }
 
-    public function getImageSize(): array {
+    public function getImageSize(): array
+    {
         return ['width' => $this->width, 'height' => $this->height];
     }
 
@@ -59,12 +60,12 @@ class ImageService
     private function resizeImageRateByBound($height, $width, $size)
     {
         $rate = $height / $width;
-        if ($height > $width) { // 
+        if ($height > $width) { //
             $newHeigh = $size;
-            $newWidth = $size / $rate;
+            $newWidth = $size / $rate; // 照比例尺計算
         } else {
             $newWidth = $size;
-            $newHeigh = $size * $rate;
+            $newHeigh = $size * $rate; // 照比例尺計算
         }
         return ["height" => $newHeigh, "width" => $newWidth];
     }
