@@ -38,7 +38,24 @@ class Album
 
     public function queryAlbumInfo($albumId)
     {
-        return "query album Id : $albumId";
+        if ($this->dataTool->selectAlbumExist($albumId)) {
+            $albumInfo = $this->dataTool->selectAlbumInfo($albumId);
+            $coverInfo = $this->dataTool->selectAlbumCovers($albumId);
+            $link = ['link' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"];
+            $imageCount = $this->dataTool->selectAlbumImageCount($albumId);
+            $imageItems = $this->dataTool->selectAlbumImageItem($albumId);
+            $data = \array_merge(
+            $albumInfo,
+                             $this->reConstructureArrayXmlCData('covers', $coverInfo),
+                             $link,
+                             $imageCount,
+                             $this->reConstructureArrayXmlCData('images', $imageItems)
+                            );
+            return $this->xmlTool->xmlEncodeDataArrayWithCData($data, ["success" => 1, "status" => "200"]);
+        } else {
+            header("HTTP/1.1 404 找不到相簿");
+            return $this->xmlTool->xmlEncodeOneLevel("data", ["success" => 0, "status" => "404"]);
+        }
     }
 
     public function queryHot($albumId)
@@ -55,5 +72,15 @@ class Album
     {
         // 產生 5~11 字的亂數字串為album 的 Id
         return substr(hash('md5',uniqid()), 0, rand(5, 11)); 
+    }
+
+    private function reConstructureArrayXmlCData(string $name, array $arrays): array
+    {
+        $string = '';
+        foreach($arrays as $array) {
+            $string .= $this->xmlTool->xmlEncodeOneLevelWithArray($array);
+        }
+        $data[$name] = ['_cdata' => $string];
+        return $data;
     }
 }

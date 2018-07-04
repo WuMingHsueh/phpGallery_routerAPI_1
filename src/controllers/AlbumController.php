@@ -13,7 +13,6 @@ class AlbumController
     public function __construct($pathInfo, $method, $contentType, $authorization)
     {
         $this->auth = new AuthService();
-
         if ($method == 'POST' and count($pathInfo) == 1 and
             $contentType == 'application/xml' and
             $this->auth->tokenAuth($authorization)) {

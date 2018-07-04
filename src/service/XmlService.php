@@ -34,6 +34,12 @@ class XmlService
         return $this->removePHPEOL($this->removeFirstTag($temp));
     }
 
+    public function xmlEncodeOneLevelWithArray($array): string
+    {
+        $temp = ArrayToXml::convert($array, '', true, 'UTF-8');
+        return $this->removeFirstTagWithUTF8($this->removePHPEOL($this->removeRootTag($temp)));
+    }
+
     public function xmlEncodeOneLevelWithContent(array $attr, $content)
     {
         $array = [
@@ -53,6 +59,11 @@ class XmlService
     private function removeFirstTag($xmlString)
     {
         return str_replace('<?xml version="1.0"?>', "", $xmlString);
+    }
+
+    private function removeFirstTagWithUTF8($xmlString)
+    {
+        return str_replace('<?xml version="1.0" encoding="UTF-8"?>', "", $xmlString);
     }
 
     private function removePHPEOL($xmlString) 
