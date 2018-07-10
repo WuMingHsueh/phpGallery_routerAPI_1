@@ -1,8 +1,15 @@
 <?php
 include __DIR__ . "/vendor/autoload.php";
 
-$length = 10;
+use GalleryAPI\Environment;
+use GuzzleHttp\Client;
 
-$array = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
-shuffle($array);
-echo implode('', array_slice($array, 0, $length));
+$client = new Client;
+
+$response = $client->request('GET', 'http://192.168.96.140/galleryPHPAPI/image/cover/b48296.jpg');
+
+header("Content-Type: image/jpg");
+echo $response->getBody();
+
+
+

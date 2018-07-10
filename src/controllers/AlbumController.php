@@ -70,7 +70,7 @@ class AlbumController
         }
         if (count($pathInfo) == 3 and $pathInfo[2] == 'cover.jpg') {
             $provider = new Album();
-            echo $provider->queryCover($pathInfo[1]);
+            echo $provider->curlCover($pathInfo[1]);
         }
     }
 }
